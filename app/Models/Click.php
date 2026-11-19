@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Click extends Model
 {
+    public $timestamps = false;
     protected $fillable = [
         'short_url_id',
         'ip',

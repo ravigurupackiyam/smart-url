@@ -20,4 +20,8 @@ class ShortUrl extends Model
             'expires_at' => 'datetime'
         ];
     }
+
+    public function clicks() {
+        return $this->hasMany(Click::class);
+    }
 }

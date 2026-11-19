@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Carbon;
 use App\Services\UrlShortener;
-
+use App\Models\ShortUrl;
 class DashboardController extends Controller
 {
     public function index(Request $request)
@@ -30,5 +30,25 @@ class DashboardController extends Controller
         );
 
         return back()->with('success', 'Short URL created!');
+    }
+
+    public function analytics(ShortUrl $url)
+    {
+
+        $perDay = $url->clicks()
+            ->selectRaw('DATE(clicked_at) as day, COUNT(*) as total')
+            ->where('clicked_at', '>=', now()->subDays(30))
+            ->groupBy('day')->orderBy('day')->pluck('total', 'day');
+
+        $devices = $url->clicks()
+            ->selectRaw('device, COUNT(*) as total')
+            ->groupBy('device')->pluck('total', 'device');
+
+        $referrers = $url->clicks()
+            ->selectRaw('referrer, COUNT(*) as total')
+            ->whereNotNull('referrer')
+            ->groupBy('referrer')->orderByDesc('total')->limit(10)->get();
+
+        return view('analytics', compact('url', 'perDay', 'devices', 'referrers'));
     }
 }
