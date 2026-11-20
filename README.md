@@ -78,16 +78,6 @@ Open the application at:
 
 `http://127.0.0.1:8000`
 
-## Screenshots
-
-Add application screenshots here:
-
-- Login and Registration
-- Dashboard
-- URL Generation
-- URL Listing
-- Analytics Dashboard
-
 ## Project Purpose
 
 This project demonstrates practical implementation of authentication, URL management, redirection, database relationships, click tracking and analytics in a Laravel application.
